@@ -49,17 +49,20 @@ export const messageSlice = createSliceWithThunks({
                   ?.extendedTextMessage?.text ?? "",
               messages: data
                 .filter((el) => el.chatId === dial.chatId)
-                .reduce((acc: IContactInfoResponse["messages"], el, ids) => {
-                  console.log(el);
-                  const message = {
-                    id: ids + 1,
-                    quotedMessage: el?.quotedMessage?.textMessage ?? "",
-                    extendedMessage:
-                      el?.extendedTextMessage?.text ?? el?.textMessage ?? "",
-                  };
-                  acc.push(message);
-                  return acc;
-                }, [] as IContactInfoResponse["messages"]),
+                .reduce(
+                  (acc: IContactInfoResponse["messages"], el, ids) => {
+                    console.log(el);
+                    const message = {
+                      id: ids + 1,
+                      quotedMessage: el?.quotedMessage?.textMessage ?? "",
+                      extendedMessage:
+                        el?.extendedTextMessage?.text ?? el?.textMessage ?? "",
+                    };
+                    acc.push(message);
+                    return acc;
+                  },
+                  [] as IContactInfoResponse["messages"]
+                ),
             })),
           };
         } catch (e) {
@@ -72,7 +75,7 @@ export const messageSlice = createSliceWithThunks({
           state.allMessages = payload.allMessage;
           state.dialogsUnique = payload.allDialog;
         },
-        rejected: (state, { payload }) => {
+        rejected: (_, { payload }) => {
           console.log(payload, "error");
         },
       }
